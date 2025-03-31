@@ -1,0 +1,113 @@
+{
+  "name": "jellyfi",
+  "version": "0.9.0-beta",
+  "description": "A Jellyfin music player with Spotify-like UI",
+  "main": "main.js",
+  "homepage": ".",
+  "scripts": {
+    "start": "concurrently \"npm run start:react\" \"npm run start:electron\"",
+    "start:react": "cross-env BROWSER=none react-scripts start",
+    "start:electron": "wait-on http://localhost:3000 && electron .",
+    "dev": "concurrently \"cross-env BROWSER=none NODE_ENV=development react-scripts start\" \"wait-on http://localhost:3000 && cross-env NODE_ENV=development electron .\"",
+    "build": "react-scripts build && npm run copy-electron-files && electron-builder build --linux",
+    "build:react": "react-scripts build",
+    "build:electron": "electron-builder build --linux",
+    "build:windows": "react-scripts build && npm run copy-electron-files && electron-builder build --win",
+    "copy-electron-files": "node -e \"const fs=require('fs'); const path=require('path'); const files = ['main.js', 'preload.js', 'discord-rpc.js']; files.forEach(f => { try { fs.copyFileSync(f, path.join('build', f)); console.log('Copied ' + f); } catch (err) { console.error('Error copying ' + f + ': ' + err.message); } }); try { const logoSource = path.join('public', 'logo.png'); const rootLogo = 'logo.png'; const locations = ['build/logo.png', 'build/static/logo.png', 'build/static/media/logo.png', 'build/icon.png']; locations.forEach(dest => { try { fs.mkdirSync(path.dirname(dest), { recursive: true }); fs.copyFileSync(logoSource, dest); console.log('Copied logo to ' + dest); } catch (err) { console.error('Error copying logo to ' + dest + ': ' + err.message); } }); if (fs.existsSync(rootLogo)) { try { fs.mkdirSync(path.join('build', 'src', 'assets'), { recursive: true }); fs.copyFileSync(rootLogo, path.join('build', 'src', 'assets', 'logo.png')); console.log('Copied root logo to build/src/assets/logo.png'); } catch (err) { console.error('Error copying root logo: ' + err.message); } } } catch (err) { console.error('Error in logo copy process: ' + err.message); } try { fs.copyFileSync(path.join('public', 'electron.js'), path.join('build', 'electron.js')); console.log('Copied public/electron.js'); } catch (err) { console.error('Error copying electron.js: ' + err.message); }\"",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "postinstall": "electron-builder install-app-deps",
+    "reset": "node reset-app.js"
+  },
+  "build": {
+    "appId": "com.jellyfi.app",
+    "productName": "Jellify",
+    "files": [
+      "build/**/*",
+      "main.js",
+      "preload.js",
+      "discord-rpc.js",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "public"
+    },
+    "extraMetadata": {
+      "main": "main.js"
+    },
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/discord-rpc/**/*"
+    ],
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "public/logo.png",
+      "category": "Audio;Music"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "public/logo.png"
+    },
+    "protocols": {
+      "name": "jellify-protocol",
+      "schemes": [
+        "jellify"
+      ]
+    }
+  },
+  "keywords": [
+    "jellyfin",
+    "music",
+    "player",
+    "electron",
+    "react"
+  ],
+  "author": {
+    "name": "Jellify Developer",
+    "email": "jellify@example.com"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@jellyfin/sdk": "^0.7.0",
+    "@mui/icons-material": "^5.14.7",
+    "@mui/material": "^5.14.7",
+    "axios": "^1.8.4",
+    "colorthief": "^2.6.0",
+    "discord-rpc": "^4.0.1",
+    "electron-squirrel-startup": "^1.0.1",
+    "electron-store": "^8.2.0",
+    "node-fetch": "^2.7.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.1",
+    "cross-env": "^7.0.3",
+    "electron": "^25.4.0",
+    "electron-builder": "^24.6.3",
+    "react-scripts": "5.0.1",
+    "wait-on": "^7.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
