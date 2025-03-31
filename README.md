@@ -49,7 +49,7 @@ Jellify is an elegant desktop music player that connects to your Jellyfin server
 
 ### Pre-built Binaries
 
-The easiest way to install Jellify is to download the pre-built binaries from the [Releases](https://github.com/yourusername/jellify/releases) page.
+The easiest way to install Jellify is to download the pre-built binaries from the [Releases](https://github.com/n3ssli/jellify) page.
 
 #### Windows
 
@@ -79,7 +79,7 @@ The easiest way to install Jellify is to download the pre-built binaries from th
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/jellify.git
+   git clone https://github.com/n3ssli/jellify.git
    cd jellify
    ```
 
