@@ -15,7 +15,7 @@ const store = new Store();
 // Your Discord application client ID from the Discord Developer Portal
 // THIS MUST BE FROM AN APPLICATION SET TO "LISTENING" ACTIVITY TYPE
 // https://discord.com/developers/applications
-const CLIENT_ID = '1355908069091180664'; 
+const CLIENT_ID = 'CLIENT_ID'; 
 
 // =============================================
 // IMPORTANT: If Discord shows "Playing Jellify" instead of "Listening to Jellify":
